@@ -1,4 +1,6 @@
 import gradio as gr
+import os
+
 from story_rewrite import StoryTeller
 
 def generate_story(story_background):
