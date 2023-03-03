@@ -28,7 +28,7 @@ class StoryTeller:
             }
         """
         self.background = background
-        self.type = None  # 0 for api token (official api) or 1 for openai account (free api)
+        self.type = 1  # 0 for api token (official api) or 1 for openai account (free api)
         self.config = None
         self.chatbot = None
         self.first_interact = True
@@ -106,17 +106,7 @@ class StoryTeller:
                 self.background = ""
         print("\n\n\n")
 
-    def get_config(self):
-        if PYCHATGPT_AVAILABLE:
-            print("请选择使用方式：\n y:使用逆向工程api。\n    " + Fore.RED + "~帐号可能被ban！谨慎使用\n" + Fore.RESET + "    ~免费，需要OpenAI账号 \n n:使用官方api。\n    "
-                  "~帐号需开启付费 \n    ~使用api key登陆")
-            res = input()
-            if res == 'y':
-                return self.config_by_account()
-            else:
-                return self.config_by_token()
-        else:
-            self.type = 0
+    def get_config(self):        
             return config
         # return self.config_by_account()
 
