@@ -1,7 +1,9 @@
-from config import config
+import os
+
 # from app import ChatApplication
 from utils import print_logo, print_warp, error, input_option
 from colorama import Fore
+
 
 PYCHATGPT_AVAILABLE = True
 try:
@@ -11,6 +13,8 @@ except:
     error("你没有安装revChatGPT或没有更新到最新版本，无法使用。\n\n\n")
     PYCHATGPT_AVAILABLE = False
 
+email = os.getenv("EMAIL")
+password = os.getenv("PASS")
 
 class StoryTeller:
     def __init__(self, background):
@@ -39,59 +43,12 @@ class StoryTeller:
         else:
             self.chatbot = Chatbot(_config)
 
-    def config_by_token(self):
-        """
-        Config by api token (official api)
-        """
-        self.type = 0
-
-        api_key = input("请输入api_key(获取方式: https://platform.openai.com/account/api-keys):")
-        _config = {'api_key': api_key}
-        return _config
-
-    def config_by_account(self):
-        """
-        Config by Openai account
-        """
-        _config = {
-            "email": "",
-            "password": "",
-            # "conversation_id": "",
-            # "parent_id": "",
-            # "proxy": "",
-            "paid": False
-        }
-        self.type = 1
-        print("请输入OpenAI帐号的邮箱及密码。")
-        _config["email"] = input("邮箱:")
-        _config["password"] = input("密码:")
-        prox = input("若使用代理，请输入代理url。不使用则直接回车。")
-        if prox:
-            _config["proxy"] = prox
-
-        paid = input_option("你是否为付费用户？", 'y', 'n', 'n')
-        if paid:
-            _config["paid"] = True
-        try:
-            with open('id_log.txt', 'r') as f:
-                lines = f.readlines()
-                last_line = lines[-1]
-                if last_line:
-                    resume = input_option("发现之前的冒险。是否继续冒险:", 'y', 'n', 'y')
-                    if resume:
-                        self.first_interact = False
-                        _config["parent_id"] = last_line
-        except:
-            pass
-
-        return _config
-
     def setup_chatbot(self):
         self.config = self.get_config()
         self.login(self.config)
 
         if self.first_interact:
-            print("请输入背景故事。置空则使用默认背景故事。")
+            print("请输入背景故事。置空则使用上次冒险结局作为背景。")
             background = input()
             if background:
                 self.background = background
@@ -106,8 +63,13 @@ class StoryTeller:
                 self.background = ""
         print("\n\n\n")
 
-    def get_config(self):        
-            return config
+    def get_config(self): 
+        _config = {}
+        if email and password:
+            _config.update({"email": email,
+                           "password": password})
+  
+            return _config
         # return self.config_by_account()
 
     def start_cli(self):
@@ -157,3 +119,5 @@ class StoryTeller:
         while True:
             action = input(Fore.GREEN + "> 你")
             print_warp(self.action(action))
+
+
