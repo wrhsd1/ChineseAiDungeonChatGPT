@@ -48,7 +48,7 @@ class StoryTeller:
         self.login(self.config)
 
         if self.first_interact:
-            print("请输入背景故事。置空则使用上次冒险结局作为背景。")
+            print("请输入背景故事。置空则使用默认背景故事，继续上次，运行continue.py")
             background = input()
             if background:
                 self.background = background
@@ -93,10 +93,10 @@ class StoryTeller:
         if user_action[-1] != "。":
             user_action = user_action + "。"
         if self.first_interact:
-            prompt = """现在来充当一个冒险文字游戏，描述时候注意节奏，不要太快，仔细描述各个人物的身体细节和行为动作细节。一次只需写100字左右。
+            prompt = """现在来充当一个冒险文字游戏，描述时候注意节奏，不要太快，仔细描述各个人物的身体细节和行为动作细节。一次只需写100字左右，用中文。
             开头是，""" + self.background + """ 你""" + user_action
         else:
-            prompt = """继续，一次只需要续写100字左右。
+            prompt = """继续，一次只需要续写100字左右，用中文。
             你""" + user_action
         response = ""
 
