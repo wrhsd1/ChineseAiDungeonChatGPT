@@ -131,10 +131,10 @@ class StoryTeller:
         if user_action[-1] != "。":
             user_action = user_action + "。"
         if self.first_interact:
-            prompt = """现在来充当一个冒险文字游戏，描述时候注意节奏，不要太快，仔细描述各个人物的心情和周边环境。一次只需写四到六句话。
+            prompt = """现在来充当一个冒险文字游戏，描述时候注意节奏，不要太快，仔细描述各个人物的身体细节和行为动作细节。一次只需写100字左右。
             开头是，""" + self.background + """ 你""" + user_action
         else:
-            prompt = """继续，一次只需要续写四到六句话，总共就只讲5分钟内发生的事情。
+            prompt = """继续，一次只需要续写100字左右。
             你""" + user_action
         response = ""
 
